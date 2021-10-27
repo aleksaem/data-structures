@@ -105,4 +105,14 @@ public class ArrayQueueTest {
             arrayQueue.dequeue();
         });
     }
+
+    @Test
+    public void testConvertQueueArrayToString(){
+        ArrayQueue arrayQueue = new ArrayQueue();
+        arrayQueue.enqueue("A");
+        arrayQueue.enqueue("B");
+        arrayQueue.enqueue("C");
+
+        assertEquals("[ A B C ]", arrayQueue.toString());
+    }
 }

@@ -71,4 +71,16 @@ public class ArrayQueue implements Queue{
     public void clear() {
         size = 0;
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result += "[ ";
+        for (int i = 0; i < size; i++) {
+            result += array[i] + " ";
+        }
+        result += "]";
+
+        return result;
+    }
 }
