@@ -1,9 +1,10 @@
 package com.luxoft.datastructures.queue;
 
-public class ArrayQueue implements Queue{
+public class ArrayQueue implements Queue {
     private int size;
     private int index;
     private Object[] array;
+
     public ArrayQueue() {
         array = new Object[10];
     }
@@ -21,7 +22,7 @@ public class ArrayQueue implements Queue{
     }
 
     private void ensureCapacity() {
-        if(array.length == size){
+        if (array.length == size) {
             Object[] newArray = new Object[array.length * 2];
             for (int i = 0; i < array.length; i++) {
                 newArray[i] = array[i];
@@ -32,7 +33,7 @@ public class ArrayQueue implements Queue{
 
     @Override
     public Object dequeue() {
-        if(isEmpty()){
+        if (isEmpty()) {
             throw new IllegalStateException("Queue is empty!");
         }
         Object result = array[index];
@@ -60,7 +61,7 @@ public class ArrayQueue implements Queue{
     public boolean contains(Object value) {
         for (int i = 0; i < size; i++) {
             Object valueInQueue = array[i];
-            if(value.equals(valueInQueue)){
+            if (value.equals(valueInQueue)) {
                 return true;
             }
         }
@@ -75,12 +76,12 @@ public class ArrayQueue implements Queue{
     @Override
     public String toString() {
         String result = "";
-        result += "[ ";
         for (int i = 0; i < size; i++) {
-            result += array[i] + " ";
+            result += array[i];
+            if (i < size - 1) {
+                result += ", ";
+            }
         }
-        result += "]";
-
-        return result;
+        return "[" + result + "]";
     }
 }

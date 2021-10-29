@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ArrayQueueTest {
 
     @Test
-    public void testEnqueueAndDequeueWorksCorrectlyAndChangeSize(){
+    public void testEnqueueAndDequeueWorksCorrectlyAndChangeSize() {
         ArrayQueue arrayQueue = new ArrayQueue();
         arrayQueue.enqueue("A");
         arrayQueue.enqueue("B");
@@ -21,7 +21,7 @@ public class ArrayQueueTest {
     }
 
     @Test
-    public void testEnqueueOverInitialCapacityAndDequeueWorksCorrectlyAndChangeSize(){
+    public void testEnqueueOverInitialCapacityAndDequeueWorksCorrectlyAndChangeSize() {
         ArrayQueue arrayQueue = new ArrayQueue(2);
         arrayQueue.enqueue("A");
         arrayQueue.enqueue("B");
@@ -35,7 +35,7 @@ public class ArrayQueueTest {
     }
 
     @Test
-    public void testEnqueueAndPeek(){
+    public void testEnqueueAndPeek() {
         ArrayQueue arrayQueue = new ArrayQueue();
         arrayQueue.enqueue("A");
         arrayQueue.enqueue("B");
@@ -48,14 +48,14 @@ public class ArrayQueueTest {
     }
 
     @Test
-    public void testIsEmptyReturnTrueOnNewQueue(){
+    public void testIsEmptyReturnTrueOnNewQueue() {
         ArrayQueue arrayQueue = new ArrayQueue();
 
         assertTrue(arrayQueue.isEmpty());
     }
 
     @Test
-    public void testIsEmptyReturnFalseOnQueueWithData(){
+    public void testIsEmptyReturnFalseOnQueueWithData() {
         ArrayQueue arrayQueue = new ArrayQueue();
         arrayQueue.enqueue("A");
 
@@ -63,7 +63,7 @@ public class ArrayQueueTest {
     }
 
     @Test
-    public void testIsEmptyReturnTrueOnQueueAfterClear(){
+    public void testIsEmptyReturnTrueOnQueueAfterClear() {
         ArrayQueue arrayQueue = new ArrayQueue();
         arrayQueue.enqueue("A");
         arrayQueue.enqueue("B");
@@ -74,7 +74,7 @@ public class ArrayQueueTest {
     }
 
     @Test
-    public void testContainsReturnTrue(){
+    public void testContainsReturnTrue() {
         ArrayQueue arrayQueue = new ArrayQueue();
         arrayQueue.enqueue("A");
         arrayQueue.enqueue("B");
@@ -83,7 +83,7 @@ public class ArrayQueueTest {
     }
 
     @Test
-    public void testContainsReturnFalse(){
+    public void testContainsReturnFalse() {
         ArrayQueue arrayQueue = new ArrayQueue();
         arrayQueue.enqueue("A");
         arrayQueue.enqueue("B");
@@ -92,14 +92,14 @@ public class ArrayQueueTest {
     }
 
     @Test
-    public void testContainsReturnFalseOnEmptyQueue(){
+    public void testContainsReturnFalseOnEmptyQueue() {
         ArrayQueue arrayQueue = new ArrayQueue();
 
         assertFalse(arrayQueue.contains("C"));
     }
 
     @Test
-    public void testThrowIllegalStateExceptionWhenPopOnEmptyQueue(){
+    public void testThrowIllegalStateExceptionWhenPopOnEmptyQueue() {
         ArrayQueue arrayQueue = new ArrayQueue();
         Assertions.assertThrows(IllegalStateException.class, () -> {
             arrayQueue.dequeue();
@@ -107,12 +107,12 @@ public class ArrayQueueTest {
     }
 
     @Test
-    public void testConvertQueueArrayToString(){
+    public void testConvertQueueArrayToString() {
         ArrayQueue arrayQueue = new ArrayQueue();
         arrayQueue.enqueue("A");
         arrayQueue.enqueue("B");
         arrayQueue.enqueue("C");
 
-        assertEquals("[ A B C ]", arrayQueue.toString());
+        assertEquals("[A, B, C]", arrayQueue.toString());
     }
 }
