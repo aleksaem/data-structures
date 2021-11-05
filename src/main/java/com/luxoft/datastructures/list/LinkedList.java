@@ -141,12 +141,13 @@ public class LinkedList implements List{
     @Override
     public int lastIndexOf(Object value) {
         Node current = tail;
-        for (int i = size - 1; i >= size; i--) {
-            if(current.value == value){
+        int i = size - 1;
+        while(current != null) {
+            if(Objects.equals(current.value, value)){
                 return i;
-            }else{
-                current = current.prev;
             }
+            current = current.prev;
+            i--;
         }
         return -1;
     }
