@@ -16,6 +16,7 @@ public class LinkedList implements List{
             head = tail = newObj;
         } else{
             tail.next = newObj;
+            newObj.prev = tail;
             tail = newObj;
         }
         size++;
