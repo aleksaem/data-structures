@@ -1,28 +1,31 @@
 package com.luxoft.datastructures.list;
 
-public class ArrayList implements List {
+import java.util.Iterator;
+import java.util.StringJoiner;
+
+public class ArrayList<T> implements List<T>, Iterable {
     private int size;
-    private Object[] array;
+    public static final int DEFAULT_CAPACITY = 10;
+    private T[] array;
 
     public ArrayList() {
-        array = new Object[10];
+        this(DEFAULT_CAPACITY);
     }
 
     public ArrayList(int initialCapacity) {
-        array = new Object[initialCapacity];
+        array = (T[]) new Object[initialCapacity];
     }
 
     @Override
-    public void add(Object value) {
+    public void add(T value) {
         ensureCapacity();
 
-        array[size] = value;
-        size++;
+        add(value, size);
     }
 
     private void ensureCapacity() {
         if (array.length == size) {
-            Object[] newArray = new Object[array.length * 3 / 2];
+            T[] newArray = (T[]) new Object[array.length * 3 / 2];
             for (int i = 0; i < array.length; i++) {
                 newArray[i] = array[i];
             }
@@ -31,35 +34,31 @@ public class ArrayList implements List {
     }
 
     @Override
-    public void add(Object value, int index) {
+    public void add(T value, int index) {
         ensureCapacity();
         if (index > size) {
             throw new IndexOutOfBoundsException("Wrong index!");
         }
 
-        for (int i = size + 1; i > 0; i--) {
-            array[i] = array[i - 1];
-        }
+        System.arraycopy(array, index, array, index + 1, size - index);
 
         array[index] = value;
         size++;
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         Object result;
         checkIndex(index);
         result = array[index];
-        for (int i = index; i < size; i++) {
-            array[i] = array[i + 1];
-        }
+        System.arraycopy(array, index + 1, array, index, size - index - 1);
         size--;
 
-        return result;
+        return (T) result;
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         Object result = null;
         checkIndex(index);
 
@@ -68,16 +67,16 @@ public class ArrayList implements List {
                 result = array[index];
             }
         }
-        return result;
+        return (T) result;
     }
 
     @Override
-    public Object set(Object value, int index) {
+    public T set(T value, int index) {
         checkIndex(index);
         Object oldObject = array[index];
 
         array[index] = value;
-        return oldObject;
+        return (T) oldObject;
     }
 
     private void checkIndex(int index) {
@@ -108,7 +107,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public boolean contains(Object value) {
+    public boolean contains(T value) {
         for (int i = 0; i < size; i++) {
             Object valueInList = array[i];
             if ((valueInList == null && value == null) || valueInList.equals(value)) {
@@ -119,7 +118,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public int indexOf(Object value) {
+    public int indexOf(T value) {
         for (int i = 0; i < size; i++) {
             if (array[i].equals(value)) {
                 return i;
@@ -129,7 +128,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public int lastIndexOf(Object value) {
+    public int lastIndexOf(T value) {
         for (int i = size - 1; i >= 0; i--) {
             if (array[i].equals(value)) {
                 return i;
@@ -140,13 +139,30 @@ public class ArrayList implements List {
 
     @Override
     public String toString() {
-        String result = "";
+        StringJoiner stringJoiner = new StringJoiner(", ", "[", "]");
         for (int i = 0; i < size; i++) {
-            result += array[i];
-            if (i < size - 1) {
-                result += ", ";
-            }
+            stringJoiner.add((CharSequence) array[i]);
         }
-        return "[" + result + "]";
+        return stringJoiner.toString();
     }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayListIterator();
+    }
+
+    private class ArrayListIterator implements Iterator<T> {
+        private int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            return get(index++);
+        }
+    }
+
 }

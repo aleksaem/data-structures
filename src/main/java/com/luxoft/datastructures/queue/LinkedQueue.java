@@ -3,12 +3,12 @@ package com.luxoft.datastructures.queue;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class LinkedQueue implements Queue{
+public class LinkedQueue<T> implements Queue<T>{
     private Node head;
     private int size;
 
     @Override
-    public void enqueue(Object value) {
+    public void enqueue(T value) {
         Node newObj = new Node(value);
 
         if(isEmpty()){
@@ -24,7 +24,7 @@ public class LinkedQueue implements Queue{
     }
 
     @Override
-    public Object dequeue() {
+    public T dequeue() {
         if (isEmpty()) {
             throw new IllegalStateException("Queue is empty!");
         }
@@ -32,13 +32,13 @@ public class LinkedQueue implements Queue{
         Object result = head.value;
         head = head.next;
         size--;
-        return result;
+        return (T) result;
     }
 
     @Override
-    public Object peek() {
+    public T peek() {
         Object result = head.value;
-        return result;
+        return (T) result;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class LinkedQueue implements Queue{
     }
 
     @Override
-    public boolean contains(Object value) {
+    public boolean contains(T value) {
         Node current = head;
         while(current != null){
             if(Objects.equals(current.value, value)){

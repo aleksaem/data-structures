@@ -1,50 +1,42 @@
 package com.luxoft.datastructures.list;
 
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class LinkedList implements List{
+public class LinkedList<T> implements List<T>, Iterable {
     Node head;
     Node tail;
     int size;
 
     @Override
-    public void add(Object value) {
-        Node newObj = new Node(value);
-
-        if(isEmpty()){
-            head = tail = newObj;
-        } else{
-            tail.next = newObj;
-            newObj.prev = tail;
-            tail = newObj;
-        }
-        size++;
+    public void add(T value) {
+        add(value, size);
     }
 
     @Override
-    public void add(Object value, int index) {
+    public void add(T value, int index) {
         checkIndex(index, size + 1);
         Node newObj = new Node(value);
-        if(size == 0){
+        if (size == 0) {
             head = tail = newObj;
-        } else if(index == size){
+        } else if (index == size) {
             tail.next = newObj;
             newObj.prev = tail;
             tail = newObj;
-        } else if(index == 0){
+        } else if (index == 0) {
             head.prev = newObj;
             newObj.next = head;
             head = newObj;
-        } else{
-            Node previous = getNodeByIndex(index-1);
+        } else {
+            Node previous = getNodeByIndex(index - 1);
             newObj.next = previous.next;
             previous.next = newObj;
         }
         size++;
     }
 
-    private Node getNodeByIndex(int index){
+    private Node getNodeByIndex(int index) {
         Node current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
@@ -53,36 +45,36 @@ public class LinkedList implements List{
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         checkIndex(index, size);
         Object result;
-       if(index == 0){
-           result = head.value;
-           head = head.next;
-           if(head == null){
-               tail = null;
-           }
-       } else{
-           Node prev = getNodeByIndex(index - 1);
-           result = prev.next.value;
-           prev.next = prev.next.next;
-           if(index == size-1){
-               tail = prev;
-           }
-       }
+        if (index == 0) {
+            result = head.value;
+            head = head.next;
+            if (head == null) {
+                tail = null;
+            }
+        } else {
+            Node prev = getNodeByIndex(index - 1);
+            result = prev.next.value;
+            prev.next = prev.next.next;
+            if (index == size - 1) {
+                tail = prev;
+            }
+        }
         size--;
 
-        return result;
+        return (T) result;
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         checkIndex(index, size);
-        return getNodeByIndex(index).value;
+        return (T) getNodeByIndex(index).value;
     }
 
     @Override
-    public Object set(Object value, int index) {
+    public T set(T value, int index) {
         checkIndex(index, size);
         Node current = head;
         for (int i = 0; i < index; i++) {
@@ -90,7 +82,7 @@ public class LinkedList implements List{
         }
         Object result = current.value;
         current.value = value;
-        return result;
+        return (T) result;
     }
 
     private void checkIndex(int index, int size) {
@@ -116,10 +108,10 @@ public class LinkedList implements List{
     }
 
     @Override
-    public boolean contains(Object value) {
+    public boolean contains(T value) {
         Node current = head;
-        while(current != null){
-            if(Objects.equals(current.value, value)){
+        while (current != null) {
+            if (Objects.equals(current.value, value)) {
                 return true;
             }
             current = current.next;
@@ -128,10 +120,10 @@ public class LinkedList implements List{
     }
 
     @Override
-    public int indexOf(Object value) {
+    public int indexOf(T value) {
         Node current = head;
         for (int i = 0; i < size; i++) {
-            if(Objects.equals(current.value, value)){
+            if (Objects.equals(current.value, value)) {
                 return i;
             }
             current = current.next;
@@ -140,11 +132,11 @@ public class LinkedList implements List{
     }
 
     @Override
-    public int lastIndexOf(Object value) {
+    public int lastIndexOf(T value) {
         Node current = tail;
         int i = size - 1;
-        while(current != null) {
-            if(Objects.equals(current.value, value)){
+        while (current != null) {
+            if (Objects.equals(current.value, value)) {
                 return i;
             }
             current = current.prev;
@@ -154,14 +146,33 @@ public class LinkedList implements List{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringJoiner stringJoiner = new StringJoiner(", ", "[", "]");
         Node current = head;
-        while(current != null){
+        while (current != null) {
             stringJoiner.add(current.value.toString());
             current = current.next;
         }
 
         return stringJoiner.toString();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<T> {
+        private int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            return get(index++);
+        }
     }
 }

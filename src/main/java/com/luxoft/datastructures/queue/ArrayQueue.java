@@ -1,20 +1,22 @@
 package com.luxoft.datastructures.queue;
 
-public class ArrayQueue implements Queue {
+import java.util.StringJoiner;
+
+public class ArrayQueue<T> implements Queue<T> {
     private int size;
     private int index;
-    private Object[] array;
+    private T[] array;
 
     public ArrayQueue() {
-        array = new Object[10];
+        this(10);
     }
 
     public ArrayQueue(int initialCapacity) {
-        array = new Object[initialCapacity];
+        array = (T[]) new Object[initialCapacity];
     }
 
     @Override
-    public void enqueue(Object value) {
+    public void enqueue(T value) {
         ensureCapacity();
 
         array[size] = value;
@@ -27,23 +29,23 @@ public class ArrayQueue implements Queue {
             for (int i = 0; i < array.length; i++) {
                 newArray[i] = array[i];
             }
-            array = newArray;
+            array = (T[]) newArray;
         }
     }
 
     @Override
-    public Object dequeue() {
+    public T dequeue() {
         if (isEmpty()) {
             throw new IllegalStateException("Queue is empty!");
         }
         Object result = array[index];
         index++;
         size--;
-        return result;
+        return (T) result;
     }
 
     @Override
-    public Object peek() {
+    public T peek() {
         return array[index];
     }
 
@@ -58,7 +60,7 @@ public class ArrayQueue implements Queue {
     }
 
     @Override
-    public boolean contains(Object value) {
+    public boolean contains(T value) {
         for (int i = 0; i < size; i++) {
             Object valueInQueue = array[i];
             if (value.equals(valueInQueue)) {
@@ -75,13 +77,10 @@ public class ArrayQueue implements Queue {
 
     @Override
     public String toString() {
-        String result = "";
+        StringJoiner stringJoiner = new StringJoiner(", ", "[", "]");
         for (int i = 0; i < size; i++) {
-            result += array[i];
-            if (i < size - 1) {
-                result += ", ";
-            }
+            stringJoiner.add((CharSequence) array[i]);
         }
-        return "[" + result + "]";
+        return stringJoiner.toString();
     }
 }
